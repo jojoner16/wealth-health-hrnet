@@ -23,9 +23,30 @@ const CreateEmployee = () => {
     setEmployee((prevEmployee) => ({ ...prevEmployee, [name]: value }));
   };
 
-  const handleDateChange = (name, date) => {
-    const dateString = date.toISOString().split('T')[0];
-    setEmployee((prevEmployee) => ({ ...prevEmployee, [name]: dateString }));
+  const handleDateChange = (name, event) => {
+    //si la valeur de l'événement est définie
+    if (event.value) {
+      let date;
+
+      // Si la valeur est déjà une instance de Date, utilise-la directement
+      if (event.value instanceof Date) {
+        date = event.value;
+      } else {
+        // Sinon, essaie de créer une nouvelle Date à partir de la valeur de l'événement
+        date = new Date(event.value);
+      }
+
+      // verifie que la date est valide
+      if (!isNaN(date.getTime())) {
+        const dateString = date.toISOString().split('T')[0];
+        setEmployee((prevEmployee) => ({
+          ...prevEmployee,
+          [name]: dateString,
+        }));
+      } else {
+        console.error('Date invalide');
+      }
+    }
   };
 
   const handleSaveEmployee = () => {
@@ -67,12 +88,14 @@ const CreateEmployee = () => {
           <CustomDatePicker
             label="Date of Birth"
             value={employee.dateOfBirth}
-            onChange={(date) => handleDateChange('dateOfBirth', date)}
+            onChange={(date) =>
+              handleDateChange('dateOfBirth', { value: date })
+            }
           />
           <CustomDatePicker
             label="Start Date"
             value={employee.startDate}
-            onChange={(date) => handleDateChange('startDate', date)}
+            onChange={(date) => handleDateChange('startDate', { value: date })}
           />
 
           <fieldset className="address">
