@@ -37,15 +37,17 @@ const EmployeeList = () => {
   return (
     <div className="container">
       <h1>Current Employees</h1>
-      <div className="entriesSearch">
-        <EntriesDropdown onSelect={(value) => setEntriesToShow(value)} />
-        <Search onSearch={handleSearch} />
+      <div className="entriesContainer">
+        <div className="entriesSearch">
+          <EntriesDropdown onSelect={(value) => setEntriesToShow(value)} />
+          <Search onSearch={handleSearch} />
+        </div>
+        <DataTable
+          columns={columns}
+          data={filteredEmployees.slice(0, entriesToShow)}
+          primaryKey="firstName"
+        />
       </div>
-      <DataTable
-        columns={columns}
-        data={filteredEmployees.slice(0, entriesToShow)}
-        primaryKey="firstName"
-      />
       <Link to="/">Home</Link>
     </div>
   );

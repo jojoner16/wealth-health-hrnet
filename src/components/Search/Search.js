@@ -5,7 +5,7 @@ import '../../styles/components/search.css';
 const Search = ({ onSearch }) => {
   return (
     <div className="searchBar">
-      <label>Search: </label>
+      <label>Search:</label>
       <TextInput
         onChange={(event) => {
           const searchValue = event.target.value;
@@ -13,6 +13,7 @@ const Search = ({ onSearch }) => {
           onSearch(searchValue);
         }}
         placeholder="Type to search..."
+        className="customInput"
       />
     </div>
   );
