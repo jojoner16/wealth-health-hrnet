@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { DataTable, Text, Box, Button } from 'grommet';
-import { CaretUpFill, CaretDownFill } from 'grommet-icons';
+import { DataTable, Box, Button, Text } from 'grommet';
 import EntriesDropdown from '../../components/EntriesDropdown/EntriesDropdown';
 import Search from '../../components/Search/Search';
+import ColumnHeader from '../../components/ColumnHeader/ColumnHeader';
 import '../../styles/pages/EmployeeList.css';
 
 const EmployeeList = () => {
@@ -13,47 +13,8 @@ const EmployeeList = () => {
   const [filteredEmployees, setFilteredEmployees] = useState(employees);
   const [sort, setSort] = useState({ property: 'firstName', direction: 'asc' });
   const [currentPage, setCurrentPage] = useState(1);
-
-  const ColumnHeader = ({ label, property }) => {
-    return (
-      <Box
-        direction="row"
-        align="center"
-        justify="between"
-        onClick={() => handleSort(property)}
-      >
-        <Text>{label}</Text>
-        <Box direction="column" align="center">
-          <CaretUpFill
-            style={{
-              visibility: sort.property === property ? 'visible' : 'hidden',
-              marginBottom: -7,
-              marginLeft: 4,
-            }}
-          />
-          <CaretDownFill
-            style={{
-              visibility: sort.property === property ? 'visible' : 'hidden',
-              marginTop: -7,
-              marginLeft: 4,
-            }}
-          />
-        </Box>
-      </Box>
-    );
-  };
-
-  const columns = [
-    { property: 'firstName', label: 'First Name' },
-    { property: 'lastName', label: 'Last Name' },
-    { property: 'dateOfBirth', label: 'Date of Birth' },
-    { property: 'startDate', label: 'Start Date' },
-    { property: 'department', label: 'Department' },
-    { property: 'street', label: 'Street' },
-    { property: 'city', label: 'City' },
-    { property: 'state', label: 'State' },
-    { property: 'zipCode', label: 'Zip Code' },
-  ];
+  const [showUpArrow, setShowUpArrow] = useState(true);
+  const [showDownArrow, setShowDownArrow] = useState(true);
 
   const handleSearch = (searchValue) => {
     const filtered = employees.filter((employee) =>
@@ -102,6 +63,33 @@ const EmployeeList = () => {
 
   const totalPages = Math.ceil(filteredEmployees.length / entriesToShow);
 
+  const columns = [
+    { property: 'firstName', label: 'First Name' },
+    { property: 'lastName', label: 'Last Name' },
+    { property: 'dateOfBirth', label: 'Date of Birth' },
+    { property: 'startDate', label: 'Start Date' },
+    { property: 'department', label: 'Department' },
+    { property: 'street', label: 'Street' },
+    { property: 'city', label: 'City' },
+    { property: 'state', label: 'State' },
+    { property: 'zipCode', label: 'Zip Code' },
+  ].map((column) => ({
+    property: column.property,
+    header: (
+      <ColumnHeader
+        key={column.property}
+        label={column.label}
+        property={column.property}
+        sort={sort}
+        handleSort={handleSort}
+        showUpArrow={showUpArrow}
+        showDownArrow={showDownArrow}
+        setShowUpArrow={setShowUpArrow}
+        setShowDownArrow={setShowDownArrow}
+      />
+    ),
+  }));
+
   return (
     <div className="container">
       <h1>Current Employees</h1>
@@ -111,16 +99,7 @@ const EmployeeList = () => {
           <Search onSearch={handleSearch} />
         </div>
         <DataTable
-          columns={columns.map((column) => ({
-            property: column.property,
-            header: (
-              <ColumnHeader
-                key={column.property}
-                label={column.label}
-                property={column.property}
-              />
-            ),
-          }))}
+          columns={columns}
           data={filteredEmployees.slice(
             (currentPage - 1) * entriesToShow,
             currentPage * entriesToShow
