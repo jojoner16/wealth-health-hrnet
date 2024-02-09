@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { DataTable, Box, Button, Text } from 'grommet';
+import { DataTable, Box, Text } from 'grommet';
 import EntriesDropdown from '../../components/EntriesDropdown/EntriesDropdown';
 import Search from '../../components/Search/Search';
 import ColumnHeader from '../../components/ColumnHeader/ColumnHeader';
+import CustomPagination from '../../components/Pagination/Pagination';
 import '../../styles/pages/EmployeeList.css';
 
 const EmployeeList = () => {
@@ -40,25 +41,6 @@ const EmployeeList = () => {
   const handlePagination = (page) => {
     setEntriesToShow(10);
     setCurrentPage(page);
-  };
-
-  const CustomPagination = ({
-    currentPage,
-    totalPages,
-    onPrevious,
-    onNext,
-  }) => {
-    return (
-      <Box direction="row" gap="small" align="center">
-        <Button disabled={currentPage === 1} onClick={onPrevious}>
-          Previous
-        </Button>
-        <Text>{` ${currentPage} `}</Text>
-        <Button disabled={currentPage >= totalPages} onClick={onNext}>
-          Next
-        </Button>
-      </Box>
-    );
   };
 
   const totalPages = Math.ceil(filteredEmployees.length / entriesToShow);
@@ -105,10 +87,19 @@ const EmployeeList = () => {
             currentPage * entriesToShow
           )}
           primaryKey="firstName"
+          border={{
+            body: {
+              color: 'border',
+              side: 'bottom',
+              size: 'xsmall',
+            },
+          }}
+          background={{
+            body: ['light-0', 'light-1'],
+            odd: { color: 'light-0' },
+            even: { color: 'light-1' },
+          }}
         />
-        <Box>
-          <hr style={{ borderTop: '1px solid #999', width: '100%' }} />
-        </Box>
         <Box
           direction="row"
           justify="between"
