@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import CustomDatePicker from '../../components/DatePicker/DatePicker';
 import StatesDropdown from '../../components/StatesDropdown/StatesDropdown';
 import DepartmentsDropdown from '../../components/DepartmentDropdown/DepartmentDropdown';
+import ModalEmployeeCreated from '../../components/Modal/Modal';
 import '../../styles/pages/CreateEmployee.css';
 
 const CreateEmployee = () => {
@@ -17,6 +18,8 @@ const CreateEmployee = () => {
     state: '',
     zipCode: '',
   });
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -56,6 +59,11 @@ const CreateEmployee = () => {
     employees.push(employee);
 
     localStorage.setItem('employees', JSON.stringify(employees));
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -135,6 +143,7 @@ const CreateEmployee = () => {
         <button type="button" onClick={handleSaveEmployee}>
           Save
         </button>
+        <ModalEmployeeCreated isOpen={isModalOpen} onClose={closeModal} />
       </div>
     </div>
   );
