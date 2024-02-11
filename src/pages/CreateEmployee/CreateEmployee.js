@@ -56,10 +56,30 @@ const CreateEmployee = () => {
     const employeesString = localStorage.getItem('employees');
     const employees = employeesString ? JSON.parse(employeesString) : [];
 
-    employees.push(employee);
+    // Générer un nouvel identifiant unique
+    const newId =
+      employees.length > 0
+        ? Math.max(...employees.map((emp) => emp.id)) + 1
+        : 1;
 
-    localStorage.setItem('employees', JSON.stringify(employees));
-    setIsModalOpen(true);
+    // Créer un nouvel employé avec l'identifiant unique
+    const newEmployee = { ...employee, id: newId };
+
+    // Vérifie si l'employé existe déjà dans le local storage
+    const existingEmployee = employees.find(
+      (emp) =>
+        emp.firstName === employee.firstName &&
+        emp.lastName === employee.lastName
+    );
+
+    if (!existingEmployee) {
+      // Ajoute le nouvel employé uniquement s'il n'existe pas déjà
+      employees.push(newEmployee);
+      localStorage.setItem('employees', JSON.stringify(employees));
+      setIsModalOpen(true);
+    } else {
+      console.error('Employee already exists');
+    }
   };
 
   const closeModal = () => {
