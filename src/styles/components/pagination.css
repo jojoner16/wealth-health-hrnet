@@ -1,0 +1,39 @@
+.pageButton.currentPage {
+  background: linear-gradient(to bottom, #fff 0%, #dcdcdc 100%);
+  color: #333;
+  border-radius: 2px;
+  min-width: 1.5em;
+  padding: 0.5em 1em;
+  cursor: pointer;
+  border: 1px solid #979797;
+}
+
+.pageButton:hover {
+  box-shadow: none !important;
+}
+
+.pageButton:not(.currentPage) {
+  background: none;
+  border: 1px solid #97979700;
+  border-radius: 2px;
+  min-width: 1.5em;
+  padding: 0.5em 1em;
+}
+
+.pageButton:not(.currentPage):hover {
+  background: linear-gradient(to bottom, #585858 0%, #111 100%);
+  border: 1px solid black;
+  color: #fff;
+}
+
+.activeButton {
+  padding: 0.5em 1em !important;
+  border: 1px solid #97979700 !important;
+}
+
+.activeButton:hover {
+  background: linear-gradient(to bottom, #585858 0%, #111 100%);
+  border: 1px solid black;
+  color: #fff;
+  border-radius: 2px;
+}
