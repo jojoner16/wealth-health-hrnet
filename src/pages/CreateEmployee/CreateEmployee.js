@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import CustomDatePicker from '../../components/DatePicker/DatePicker';
 import StatesDropdown from '../../components/StatesDropdown/StatesDropdown';
 import DepartmentsDropdown from '../../components/DepartmentDropdown/DepartmentDropdown';
-import ModalEmployeeCreated from '../../components/Modal/Modal';
+// import ModalEmployeeCreated from '../../components/Modal/Modal';
+import { ModalEmployeeCreated } from 'employeehrnet';
 import '../../styles/pages/CreateEmployee.css';
 
 const CreateEmployee = () => {
