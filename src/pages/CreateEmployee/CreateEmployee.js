@@ -53,7 +53,17 @@ const CreateEmployee = () => {
     }
   };
 
+  const [errorMessage, setErrorMessage] = useState('');
+
   const handleSaveEmployee = () => {
+    // Vérifie si tous les champs sont remplis
+    for (const key in employee) {
+      if (employee[key] === '') {
+        setErrorMessage(`Le champ "${key}" est obligatoire`);
+        return; // Arrête l'exécution si un champ est vide
+      }
+    }
+    // Si tous les champs sont remplis, continuez avec l'enregistrement de l'employé
     const employeesString = localStorage.getItem('employees');
     const employees = employeesString ? JSON.parse(employeesString) : [];
 
@@ -95,6 +105,7 @@ const CreateEmployee = () => {
       <div className="container">
         <Link to="/employee-list">View Current Employees</Link>
         <h2>Create Employee</h2>
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
         <form action="#" id="create-employee">
           <label htmlFor="firstName">First Name</label>
           <input
