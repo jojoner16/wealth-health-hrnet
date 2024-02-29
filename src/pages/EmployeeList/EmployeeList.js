@@ -16,15 +16,24 @@ const EmployeeList = () => {
   }, []);
 
   // Fusion des employés locaux avec ceux du fichier JSON en évitant les doublons
-  const mergedEmployees = useMemo(
-    () => [
-      ...localEmployees.filter(
-        (localEmp) => !employeeData.find((emp) => emp.id === localEmp.id)
-      ),
-      ...employeeData,
-    ],
-    [localEmployees]
-  );
+  const mergedEmployees = useMemo(() => {
+    // Crée un ensemble pour stocker les identifiants uniques des employés
+    const uniqueIds = new Set();
+
+    // Fusionne les employés locaux avec ceux du fichier JSON
+    const merged = [
+      ...localEmployees.filter((localEmp) => {
+        if (!uniqueIds.has(localEmp.id)) {
+          uniqueIds.add(localEmp.id);
+          return true;
+        }
+        return false;
+      }),
+      ...employeeData.filter((emp) => !uniqueIds.has(emp.id)),
+    ];
+
+    return merged;
+  }, [localEmployees]);
 
   // États pour gérer la pagination et la liste filtrée des employés
   const [entriesToShow, setEntriesToShow] = useState(10);
@@ -119,7 +128,7 @@ const EmployeeList = () => {
         <DataTable
           columns={columns}
           data={displayedEmployees}
-          primaryKey="firstName"
+          primaryKey="id"
           border={{
             body: {
               color: 'border',
