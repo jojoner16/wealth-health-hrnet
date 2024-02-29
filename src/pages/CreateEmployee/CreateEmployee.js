@@ -89,7 +89,7 @@ const CreateEmployee = () => {
       localStorage.setItem('employees', JSON.stringify(employees));
       setIsModalOpen(true);
     } else {
-      console.error('Employee already exists');
+      setErrorMessage('Employee already exists');
     }
   };
 
