@@ -1,22 +1,21 @@
 import React from 'react';
-import { Box, DateInput } from 'grommet';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const CustomDatePicker = ({ label, value, onChange }) => {
-  const handleChange = (event) => {
-    const nextValue = Array.isArray(event.value) ? event.value[0] : event.value;
-    onChange(nextValue);
+  const handleChange = (date) => {
+    onChange(date);
   };
 
   return (
-    <Box>
+    <div>
       <label>{label}</label>
-      <DateInput
-        name="datepicker"
-        format="dd/mm/yyyy"
-        value={value}
+      <DatePicker
+        selected={value}
         onChange={handleChange}
+        dateFormat="dd/MM/yyyy"
       />
-    </Box>
+    </div>
   );
 };
 
